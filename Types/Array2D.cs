@@ -3,6 +3,10 @@ using System;
 
 namespace Krystal.Types;
 
+/// <summary>
+/// Represents a flat 1D array as a 2-dimensional array.
+/// </summary>
+/// <typeparam name="T">Type</typeparam>
 public class Array2D<T>
 {
     private readonly T[] _data;

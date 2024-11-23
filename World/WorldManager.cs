@@ -3,6 +3,9 @@ using System;
 
 namespace Krystal.World;
 
+/// <summary>
+/// The root node of the world. Manages all world information
+/// </summary>
 public partial class WorldManager : WorldEnvironment
 {
 	private Chunk _chunks;

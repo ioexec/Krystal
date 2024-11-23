@@ -4,10 +4,19 @@ using Godot;
 
 namespace Krystal.World;
 
+/// <summary>
+/// Represents the instance of a <c>BlockType</c> in a <c>Chunk</c>.
+/// </summary>
 public struct BlockInstance
 {
+    /// <summary>
+    /// A reference type to the registered <c>BlockType</c> this instance represents.
+    /// </summary>
     private BlockType _blockType;
     
+    /// <summary>
+    /// A reference type to the registered <c>BlockType</c> this instance represents.
+    /// </summary>
     public BlockType BlockType
     {
         get => _blockType;

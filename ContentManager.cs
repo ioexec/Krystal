@@ -10,22 +10,15 @@ using EditorFileSystemImportFormatSupportQuery = Godot.EditorFileSystemImportFor
 
 namespace Krystal;
 
-
-// Find all images.
-// For each image
-    // Create a ImageTexture
-    // Copy StandardBlockMaterial
-    // Change the copy's Albedo->Texture to the ImageTexture
-    // Place the Material in the associative array with the key as its name without the file extension
-
+/// <summary>
+/// Serves as Krystal's main management class for different content in the game. This includes textures, blocks, items, mobs.
+/// </summary>
 public static class ContentManager
 {
     private static Dictionary<string, StandardMaterial3D> _textureRegistry;
     private static Dictionary<string, BlockType> _blockRegistry;
-
     private static StandardMaterial3D _standardBlockMaterial;
     
-    // private BlockRegistry _blockRegistry;
     
     static ContentManager()
     {
@@ -38,11 +31,20 @@ public static class ContentManager
         return;
     }
     
+    /// <summary>
+    /// Returns true if a block with this name exists in the block registry.
+    /// </summary>
+    /// <param name="name">The internal name of the block. i.e "Grass"</param>
+    /// <returns></returns>
     public static bool DoesBlockTypeExistByName(string name)
     {
         return _blockRegistry.ContainsKey(name);
     }
     
+    /// <summary>
+    /// Load all blocks defined in Krystal.World.Blocks as instances in the block registry
+    /// </summary>
+    /// <exception cref="Exception">a block failed to instantiate</exception>
     public static void LoadBlocks()
     {
         // Get all classes that inherit BlockType (using reflection trickery!!!)
@@ -54,6 +56,7 @@ public static class ContentManager
 
         foreach (var type in blockTypes)
         {
+            // Create an instance of the BlockType
             GD.Print($"Instantiating block type {type.Name}");
             var newBlock = Activator.CreateInstance(type) as BlockType;
             
@@ -71,6 +74,7 @@ public static class ContentManager
                     newBlock.BlockTexture = GetTexture(newBlock.Name);
                 else
                 {
+                    // Resort to default texture if one could not be found
                     GD.Print($"Could not find texture for block \"{newBlock.Name}\"");
                     newBlock.BlockTexture = GetTexture("Default");
                 }
@@ -80,6 +84,12 @@ public static class ContentManager
         }
     }
 
+    /// <summary>
+    /// Returns a  <c>BlockType</c> registered under the provided internal name.
+    /// </summary>
+    /// <param name="name">The internal name of the block. i.e: "Grass"</param>
+    /// <returns><c>BlockType</c> loaded under the given name</returns>
+    /// <exception cref="KeyNotFoundException">A <c>BlockType</c> registered under the given name was not found</exception>
     public static BlockType GetBlockTypeByName(string name)
     {
         if (DoesBlockTypeExistByName(name))
@@ -88,11 +98,21 @@ public static class ContentManager
             throw new KeyNotFoundException($"Block type {name} not found");
     }
 
+    /// <summary>
+    /// Checks if a texture has been registered under the given internal name
+    /// </summary>
+    /// <param name="textureName">the file name of the texture without its extension. i.e "me.bmp" -> "me"</param>
+    /// <returns></returns>
     public static bool DoesTextureExist(string textureName)
     {
         return _textureRegistry.ContainsKey(textureName);
     }
     
+    /// <summary>
+    /// Obtain texture object registered under internal name
+    /// </summary>
+    /// <param name="textureName">the file name of the texture without its extension. i.e "me.bmp" -> "me"</param>
+    /// <returns>A <c>BaseMaterial3D</c> reference that represents the texture</returns>
     public static BaseMaterial3D GetTexture(string textureName)
     {
         if (_textureRegistry.TryGetValue(textureName, out var texture))
@@ -100,6 +120,13 @@ public static class ContentManager
         else throw new KeyNotFoundException($"Attempted to get texture that does not exist with name {textureName}");
     }
     
+    /// <summary>
+    /// Loads all textures with the correct extensions into the texture registry and assigns their names
+    /// as their filename without the extension.
+    /// </summary>
+    /// <param name="path">The directory to search for textures</param>
+    /// <exception cref="ArgumentNullException"></exception>
+    /// <exception cref="FileNotFoundException"></exception>
     private static void LoadTextures(string path)
     {
         if (string.IsNullOrEmpty(path)) throw new ArgumentNullException(nameof(path));

@@ -4,7 +4,10 @@ using Godot;
 
 namespace Krystal.World;
 
-public class Chunk : Array3D<BlockInstance>
+/// <summary>
+/// Represents a chunk in world space. Including its associated metadata and block data.
+/// </summary>
+public class Chunk : Array3D<BlockInstance>, IGenerated
 {
     public const int ChunkSizeX = 16;
     public const int ChunkSizeY = 32;
@@ -15,6 +18,9 @@ public class Chunk : Array3D<BlockInstance>
     public Chunk() : base(ChunkSizeX, ChunkSizeY, ChunkSizeZ)
     { }
 
+    /// <summary>
+    /// Generates the block data and metadata for this chunk
+    /// </summary>
     public void Generate()
     {
         GD.Print("Generating chunk");
