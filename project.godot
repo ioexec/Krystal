@@ -11,8 +11,9 @@ config_version=5
 [application]
 
 config/name="Krystal"
-run/main_scene="res://World/World.tscn"
+run/main_scene="res://World/WorldManager.tscn"
 config/features=PackedStringArray("4.3", "C#")
+boot_splash/show_image=false
 config/icon="res://icon.svg"
 
 [dotnet]
