@@ -1,0 +1,27 @@
+[gd_scene load_steps=7 format=3 uid="uid://de7py3wkd0a7a"]
+
+[ext_resource type="Texture2D" uid="uid://cw3mk0gn02chu" path="res://Resources/Textures/autumn_field_puresky_4k.exr" id="1_y4yt2"]
+[ext_resource type="Script" path="res://World/WorldManager.cs" id="2_5ilpk"]
+[ext_resource type="Script" path="res://addons/freecam_3D/freecam.gd" id="3_2uo3r"]
+
+[sub_resource type="PanoramaSkyMaterial" id="PanoramaSkyMaterial_x2ex1"]
+panorama = ExtResource("1_y4yt2")
+
+[sub_resource type="Sky" id="Sky_4g02u"]
+sky_material = SubResource("PanoramaSkyMaterial_x2ex1")
+
+[sub_resource type="Environment" id="Environment_p7baa"]
+background_mode = 2
+background_color = Color(0, 0.654902, 0.94902, 1)
+sky = SubResource("Sky_4g02u")
+ambient_light_source = 3
+ambient_light_color = Color(1, 0.968627, 1, 1)
+
+[node name="WorldManager" type="WorldEnvironment"]
+environment = SubResource("Environment_p7baa")
+script = ExtResource("2_5ilpk")
+
+[node name="Chunks" type="Node3D" parent="."]
+
+[node name="Camera3D" type="Camera3D" parent="."]
+script = ExtResource("3_2uo3r")
