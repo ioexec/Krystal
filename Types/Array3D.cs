@@ -1,5 +1,8 @@
 using System.Collections.ObjectModel;
 using System;
+using System.Collections;
+using System.Collections;
+using System.Collections.Generic;
 
 namespace Krystal.Types;
 
@@ -7,7 +10,7 @@ namespace Krystal.Types;
 /// Represents a flat 1D array as a 3-dimensional array.
 /// </summary>
 /// <typeparam name="T">Type</typeparam>
-public class Array3D<T>
+public class Array3D<T> : IEnumerable<T>
 {
     private readonly T[] _data;
     private readonly int _sizeX, _sizeY, _sizeZ;
@@ -70,4 +73,13 @@ public class Array3D<T>
     public int SizeX => _sizeX;
     public int SizeY => _sizeY;
     public int SizeZ => _sizeZ;
+    public IEnumerator<T> GetEnumerator()
+    {
+        return ((IEnumerable<T>)_data).GetEnumerator();
+    }
+
+    IEnumerator IEnumerable.GetEnumerator()
+    {
+        return GetEnumerator();
+    }
 }

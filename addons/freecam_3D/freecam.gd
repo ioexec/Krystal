@@ -13,7 +13,7 @@ class_name Freecam3D
 @export var toggle_key: Key = KEY_TAB
 ## Speed up / down by scrolling the mouse whell down / up
 @export var invert_speed_controls: bool = false
-
+@export var wireframe_enabled = false  # Tracks if wireframe mode is active
 @export var overlay_text: bool = true
 
 ## Pivot node for camera looking around
@@ -108,6 +108,9 @@ func _input(event: InputEvent) -> void:
 				
 			if event.button_index == MOUSE_BUTTON_WHEEL_DOWN and event.pressed:
 				speed_up.call() if invert_speed_controls else slow_down.call()
+	
+	if event is InputEventKey and event.pressed and event.keycode == KEY_CTRL:
+		_toggle_wireframe()
 
 
 ## Pushes new message label into "chat" and removes the old ones if necessary
@@ -141,3 +144,14 @@ func _add_key_input_action(name: String, key: Key) -> void:
 	
 	InputMap.add_action(name)
 	InputMap.action_add_event(name, ev)
+
+func _toggle_wireframe():
+	# Toggle wireframe rendering
+	wireframe_enabled = !wireframe_enabled
+	var viewport_rid = get_viewport().get_viewport_rid()
+	RenderingServer.viewport_set_debug_draw(
+		viewport_rid,
+		RenderingServer.VIEWPORT_DEBUG_DRAW_WIREFRAME if wireframe_enabled else RenderingServer.VIEWPORT_DEBUG_DRAW_DISABLED
+	)
+	# Optional: Print to console to confirm toggle state
+	print("Wireframe enabled: ", wireframe_enabled)

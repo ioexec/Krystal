@@ -1,6 +1,6 @@
 [gd_scene load_steps=7 format=3 uid="uid://de7py3wkd0a7a"]
 
-[ext_resource type="Texture2D" uid="uid://cw3mk0gn02chu" path="res://Resources/Textures/autumn_field_puresky_4k.exr" id="1_y4yt2"]
+[ext_resource type="Texture2D" uid="uid://ticl4hywa70" path="res://Resources/Textures/autumn_field_puresky_4k.exr" id="1_y4yt2"]
 [ext_resource type="Script" path="res://World/WorldManager.cs" id="2_5ilpk"]
 [ext_resource type="Script" path="res://addons/freecam_3D/freecam.gd" id="3_2uo3r"]
 

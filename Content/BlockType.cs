@@ -1,14 +1,15 @@
 using System;
 using Godot;
 
-namespace Krystal.World;
+namespace Krystal.Content;
 
 /// <summary>
 /// Abstract representation of a block and all its metadata and custom behaviour
 /// </summary>
-public abstract class BlockType
+public abstract class BlockType : IPlaceable
 {
     BaseMaterial3D _texture;
+    
 
     /// <summary>
     /// Internal name of this block
@@ -19,6 +20,7 @@ public abstract class BlockType
     /// The block's texture
     /// </summary>
     /// <exception cref="Exception"></exception>
+    
     public BaseMaterial3D BlockTexture
     {
         get => _texture;
@@ -30,6 +32,16 @@ public abstract class BlockType
                 throw new Exception("Cannot change texture while it is already set");
         }
     }
+
+    
+    /// <summary>
+    /// Whether the block is transparent or not.
+    /// </summary>
+    public bool Transparent
+    {
+        get;
+        protected set;
+    }
     
     /// <summary>
     /// Called during registration. Sets all the default attributes of the block.
@@ -37,6 +49,7 @@ public abstract class BlockType
     public virtual void SetDefaults()
     {
         Name = this.GetType().Name;
+        Transparent = false;
     }
 
 }

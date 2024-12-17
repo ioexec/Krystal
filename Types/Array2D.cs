@@ -1,5 +1,7 @@
 using System.Collections.ObjectModel;
 using System;
+using System.Collections;
+using System.Collections.Generic;
 
 namespace Krystal.Types;
 
@@ -7,7 +9,7 @@ namespace Krystal.Types;
 /// Represents a flat 1D array as a 2-dimensional array.
 /// </summary>
 /// <typeparam name="T">Type</typeparam>
-public class Array2D<T>
+public class Array2D<T> : IEnumerable<T>
 {
     private readonly T[] _data;
     private readonly int _sizeX, _sizeY;
@@ -51,8 +53,17 @@ public class Array2D<T>
         for (int i = 0; i < _data.Length; i++)
             _data[i] = value;
     }
-    
-    // Optional: Get the dimensions of the array
+
     public int SizeX => _sizeX;
     public int SizeY => _sizeY;
+    
+    public IEnumerator<T> GetEnumerator()
+    {
+        return ((IEnumerable<T>)_data).GetEnumerator();
+    }
+
+    IEnumerator IEnumerable.GetEnumerator()
+    {
+        return GetEnumerator();
+    }
 }

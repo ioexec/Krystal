@@ -1,8 +1,4 @@
-using System.Runtime.CompilerServices;
-using Godot;
-using Krystal.World;
-
-namespace Krystal.World.Blocks;
+namespace Krystal.Content.Blocks;
 
 public class Grass : BlockType
 {
